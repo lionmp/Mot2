@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Motivación</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial;
+      background: #0b0f1a;
+      color: white;
+    }
+
+    #container {
+      text-align: center;
+      z-index: 2;
+      padding: 20px;
+    }
+
+    #frase {
+      font-size: 44px;   /* MÁS GRANDE */
+      max-width: 900px;
+      font-weight: bold;
+      line-height: 1.3;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 30px;
+      background: white;
+      color: black;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+  </style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div id="container">
+  <div id="frase"></div>
+
+  <button onclick="nuevaFrase()">Otra frase</button>
+  <button onclick="activarMusica()">🔊 Activar música</button>
+</div>
+
+<!-- música -->
+<audio id="musica" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8b6b9c1b1.mp3?filename=inspiring-cinematic-ambient-112191.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const frases = [
+  "No necesitas motivación, necesitas disciplina.",
+  "Hazlo aunque no tengas ganas.",
+  "Cada día cuenta.",
+  "El dolor es temporal, el orgullo es eterno.",
+  "Si fuera fácil, todos lo harían.",
+  "Haz lo que dijiste que harías.",
+  "Menos excusas, más acción.",
+  "Tu yo futuro te está mirando."
+];
+
+let lista = [];
+let i = 0;
+
+function mezclar(a) {
+  return a.sort(() => Math.random() - 0.5);
+}
+
+function nuevaFrase() {
+  if (i >= lista.length) {
+    lista = mezclar([...frases]);
+    i = 0;
+  }
+  document.getElementById("frase").innerText = lista[i];
+  i++;
+}
+
+lista = mezclar([...frases]);
+nuevaFrase();
+
+/* música */
+function activarMusica() {
+  const audio = document.getElementById("musica");
+  audio.volume = 0.4;
+  audio.play();
+}
+
+/* partículas */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 100; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2,
+    d: Math.random() * 1
+  });
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "white";
+  ctx.globalAlpha = 0.5;
+
+  for (let p of particles) {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  update();
+}
+
+function update() {
+  for (let p of particles) {
+    p.y += p.d;
+    if (p.y > canvas.height) {
+      p.y = 0;
+      p.x = Math.random() * canvas.width;
+    }
+  }
+}
+
+setInterval(draw, 30);
+</script>
+
+</body>
+</html>
