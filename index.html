@@ -1,40 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Motivación</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
-      background: black;
-      color: white;
-    }
+<script>
+const frases = [
+  "No necesitas motivación, necesitas disciplina.",
+  "Hazlo aunque no tengas ganas.",
+  "Cada día cuenta.",
+  "El dolor es temporal, el orgullo es eterno.",
+  "Si fuera fácil, todos lo harían.",
+  "Haz lo que dijiste que harías.",
+  "Menos excusas, más acción.",
+  "Tu yo futuro te está mirando."
+];
 
-    #container {
-      text-align: center;
-      z-index: 2;
-      padding: 20px;
-    }
+let listaMezclada = [];
+let indice = 0;
 
-    #frase {
-      font-size: 32px;
-      max-width: 600px;
-      line-height: 1.4;
-    }
+function mezclar(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
 
-    button {
-      margin-top: 30px;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 20px;
-      background: white;
-      color: black;
-      font-size: 16px;
+function nuevaFrase() {
+  if (indice >= listaMezclada.length) {
+    listaMezclada = mezclar([...frases]);
+    indice = 0;
+  }
+
+  document.getElementById("frase").innerText = listaMezclada[indice];
+  indice++;
+}
+
+// iniciar
+listaMezclada = mezclar([...frases]);
+nuevaFrase();
+</script>      font-size: 16px;
       cursor: pointer;
     }
 
